@@ -8,7 +8,7 @@ var pages = {};
 new PreLoad($('#progress'), [
   'avatar.jpg',
   'birth.png',
-  'experience',
+  'experience.png',
   'zora-bg.png',
   'zora-logo.png',
   'xiayuhe.jpg',
