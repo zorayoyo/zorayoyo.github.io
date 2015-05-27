@@ -7,10 +7,14 @@ var pages = {};
 
 new PreLoad($('#progress'), [
   'avatar.jpg',
-  'destination.jpg',
-  'source.png',
+  'birth.png',
+  'experience',
   'zora-bg.png',
-  'zora-logo.png'
+  'zora-logo.png',
+  'xiayuhe.jpg',
+  'sex.png',
+  'qrcode.png',
+  'secret.jpg'
 ], {
   prefix: '../images/',
   complete: function(){
