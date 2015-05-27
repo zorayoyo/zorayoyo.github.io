@@ -1,0 +1,55 @@
+@charset "utf-8";
+.m-opening {
+  //默认第一次不需要上移
+  -webkit-transform: translate3d(0,0,0);
+  @include linear-gradient(#a87f9a,#2f3350);
+  padding: 50px;
+}
+.avatar {
+  @include round(1.25rem);
+}
+.logo {
+  margin: .1rem auto;
+  position: relative;
+  display: inline-block;
+  font-size: .4rem;
+  font-family: 'MS Reference Sans Serif';
+  color: #df6f9f;
+  &:before {
+    content: "";
+    background: url(#{base(images-url)}zora-logo.png) no-repeat;
+    background-size: 100% 100%;
+    @include rect(.275rem, .19rem);
+    background-position: right 0;
+    position: absolute;
+    left: .25rem;
+    top: -2rem;
+    opacity: 0;
+  }
+  span {
+    float: left;
+    opacity: 0;
+  }
+}
+.footnote {
+  font-size: .16rem;
+  font-family: cursive;
+  margin: .1rem 0;
+}
+.play {
+  .logo {
+    span {
+      &:nth-child(1) { -webkit-animation:opacity 1s ease-in forwards; }
+      &:nth-child(2) { -webkit-animation:opacity 1.2s .2s ease-in forwards; }
+      &:nth-child(3) { -webkit-animation:opacity 1.3s .2s ease-in forwards; }
+      &:nth-child(4) { -webkit-animation:opacity 1.4s .2s ease-in forwards; }
+      &:nth-child(5) { -webkit-animation:opacity 1.5s .2s ease-in forwards; }
+      &:nth-child(6) { -webkit-animation:opacity 1.6s .2s ease-in forwards; }
+      &:nth-child(7) { -webkit-animation:opacity 1.7s .2s ease-in forwards; }
+      &:nth-child(8) { -webkit-animation:opacity 1.8s .2s ease-in forwards; }
+    }
+    &:before {
+      -webkit-animation: logo-decoration 2s 1s ease-out forwards;
+    }
+  }
+}

@@ -1,0 +1,143 @@
+@charset "utf-8";
+.m-experience {
+  @include linear-gradient(#a87f9a, #d0b3a1);
+  padding: .05rem;
+}
+.tree-dot {
+  @extend %clrfix;
+  position: relative;
+  margin-bottom: .10rem;
+  text-align: left;
+  &:before {
+    content: "";
+    position: absolute;
+    left: 20%;
+    @include round(.16rem);
+    margin-left: .08rem;
+    background-color: rgba(255, 255, 255, .9);
+    margin: 0 .1rem;
+    -webkit-transform: scale(0);
+  }
+  time,
+  .des { 
+    float: left;
+    opacity: 0;
+  }
+  time { 
+    font-family: arial;
+    width: 20%;
+    left: 0;
+    text-align: right;
+    font-size: .16rem;
+    margin-top: -.03rem;
+  }
+  .to {
+    display: block;
+    margin-top: .4rem;
+    position: relative;
+    &:before {
+      content: "↓";
+      position: absolute;
+      top: -.3rem;
+      left: 50%;
+    }
+  }
+  .des {
+    padding-left: .4rem;
+    width: 60%;
+    font-size: .16rem;
+  }
+  .work {
+    list-style: inside square;
+  }
+}
+.duang {
+  background: url(#{base(images-url)}duang.jpg) no-repeat;
+  background-size: 100% 100%;
+  position: absolute;
+  width: 3.2rem;
+  height: 3.2rem;
+  left: 0;
+  top: 0;
+  z-index: 100;
+}
+.timeline {
+    position: absolute;
+    top: -100%;
+    left: 26%;
+    width: .02rem;
+    height: 100%;
+    background-color: #fff;
+    opacity: 0;
+}
+.play {
+  .timeline{
+    -webkit-animation:timeline 1.5s ease-in-out forwards;
+  }
+  .tree-dot:nth-child(1){
+    &:before{
+      -webkit-animation: scale .2s 1.5s ease-in-out forwards;
+    }
+    time{
+      -webkit-animation: opacity .2s 1.7s ease-in-out forwards;
+    }
+    .des{
+      -webkit-animation: opacity .2s 1.9s ease-in-out forwards;
+    }
+  }
+  .tree-dot:nth-child(2){
+    &:before{
+      -webkit-animation: scale .2s 2.1s ease-in-out forwards;
+    }
+    time{
+      -webkit-animation: opacity .2s 2.3s ease-in-out forwards;
+    }
+    .des{
+      -webkit-animation: opacity .2s 2.5s ease-in-out forwards;
+    }
+  }
+  .tree-dot:nth-child(3){
+    &:before{
+      -webkit-animation: scale .2s 2.7s ease-in-out forwards;
+    }
+    time{
+      -webkit-animation: opacity .2s 2.9s ease-in-out forwards;
+    }
+    .des{
+      -webkit-animation: opacity .2s 3.1s ease-in-out forwards;
+    }
+  }
+  .tree-dot:nth-child(4){
+    &:before{
+      -webkit-animation: scale .2s 3.3s ease-in-out forwards;
+    }
+    time{
+      -webkit-animation: opacity .2s 3.5s ease-in-out forwards;
+    }
+    .des{
+      -webkit-animation: opacity .2s 3.7s ease-in-out forwards;
+    }
+  }
+  .tree-dot:nth-child(5){
+    &:before{
+      -webkit-animation: scale .2s 3.9s ease-in-out forwards;
+    }
+    time{
+      -webkit-animation: opacity .2s 4.1s ease-in-out forwards;
+    }
+    span.text{
+      -webkit-animation: opacity .2s 4.3s ease-in-out forwards;
+    }
+  }
+  .tree-dot:nth-child(6){
+    &:before{
+      -webkit-animation:scale .2s 4.5s ease-in-out forwards;
+    }
+    time{
+      -webkit-animation: opacity .2s 4.7s ease-in-out forwards;
+    }
+    span.text{
+      -webkit-animation: opacity .2s 4.9s ease-in-out forwards;
+    }
+  }
+}

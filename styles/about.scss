@@ -1,0 +1,24 @@
+@charset "utf-8";
+
+/**
+ * css的基础定义
+ */
+@import "lib/var";
+@import "lib/function";
+@import "lib/mixin";
+@import "lib/placeholder";
+@import "lib/reset";
+@import "lib/animate";
+
+/**
+ * css的内容页面
+ */
+@import "module/common";
+@import "module/m-index";
+@import "module/m-introduciton";
+@import "module/m-skill";
+@import "module/m-experience";
+@import "module/m-favor";
+@import "module/m-contact";
+@import "module/m-eraser";
+@import "module/m-page-btn";

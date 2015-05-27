@@ -1,0 +1,26 @@
+@charset "utf-8";
+// 改变所有元素的盒模型
+*,
+::before,
+::after{ @include box-sizing(border-box); }
+// 防止用户自定义网页背景及文字颜色、大小影响
+html{
+  background-color: base(bgcolor);
+  color: base(color);
+  font-size: base(font-size-root);
+  font-size: base(font-size-root-scaling);
+  @include user-select();
+}
+// 定义页面的基准字号
+body{
+  font-size: base(font-size);
+  margin: 0;
+}
+html,body{ overflow:hidden; }
+html,body{ height:100%; }
+h1,h2,h3,h4,h5,h6,p{margin:0;}
+ul{
+  list-style:none;
+  margin:0;
+  padding:0;
+}

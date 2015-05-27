@@ -1,0 +1,104 @@
+.m-skill {
+  @include linear-gradient(#a87f9a, #d0b3a1);
+  padding: .2rem;
+  font-size: .14rem;
+  color: rgba(255,255,255,.7);
+}
+.title {
+  font-size: .24rem;
+  line-height: 1.5;
+  text-shadow: 0 3px 5px rgba(0,0,0,.7);
+}
+.skill-list {
+  margin: .2rem 0;
+  text-align: left;
+  a { 
+    color: #fff;
+    font-style: italic;
+    padding: 0 .05rem;
+  }
+  p {
+    padding: .05rem 0 0 .1rem;
+  }
+  li { 
+    counter-increment: addNumber 1;
+    &:before {
+      content: "S" counter(addNumber) " : ";
+      padding: 0 0.05rem 0 0;
+    }
+    margin: .05rem 0;
+  }
+}
+.map-lines {
+  position: relative; 
+  margin: auto;
+  @include round(1.6rem);
+  top: -1.6rem;
+  left: 0;
+  li {
+    position: absolute; 
+    @include rect(100%, 100%);
+    top: 50%;
+    left: 50%;
+    &:before, 
+    &:after {
+      position: absolute;
+      left: 0;
+      content: "";
+      width: 1px;
+      height: .8rem;
+      background-color: #fff; 
+      @include transform-origin(0,0);
+    }
+    &:nth-child(1) {
+      &:before { @include rotate(80deg); }
+      &:after { @include rotate(180deg); }
+    }
+    &:nth-child(2) {
+      &:before { display:none; }
+      &:after { @include rotate(280deg); }
+    }
+    &:nth-child(3) {
+      &:before { display: none; }
+      &:after { @include rotate(0); }
+    }
+  }
+}
+.map-lists {
+  position: relative;
+  margin: auto;
+  @include round(1.6rem);
+  background-color: #474e61;
+  li { 
+    -webkit-transform: scale(0);
+    position: absolute;
+  }
+  li:nth-child(1) {
+    left: .3rem;
+    top: .2rem;
+    width: 30%;
+  }
+  li:nth-child(2) {
+    left: .9rem;
+    top: .2rem;
+  }
+  li:nth-child(3) {
+    left: .3rem;
+    top: 1rem;
+    width: 30%;
+  }
+  li:nth-child(4) {
+    left: .9rem;
+    top: 1rem;
+  }
+}
+.play {
+  .map-lists{
+    li {
+      &:nth-child(1) { -webkit-animation: scale .7s .5s ease-in-out forwards; }
+      &:nth-child(2) { -webkit-animation: scale 1s .3s ease-in-out forwards; }
+      &:nth-child(3) { -webkit-animation: scale 1.2s .3s ease-in-out forwards; }
+      &:nth-child(4) { -webkit-animation: scale 1.5s .3s ease-in-out forwards; }
+    }
+  }
+}

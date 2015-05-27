@@ -1,0 +1,29 @@
+@charset "utf-8";
+.m-page-btn{
+    position:absolute;
+    z-index: 1000;
+    bottom:.3rem;
+    left:50%;
+    display: inline-block;
+    width: 1.5rem;
+    margin-left:-.75rem;
+    text-align:center;
+    -webkit-animation:page-btn 2s ease infinite;
+    font-size:.2rem;
+    line-height:.36rem;
+    &:before{
+        content:"向上滑动";
+        display:block;
+        font-size: .14rem;
+        color:rgba(255,255,255,.7);
+        height:.36rem;
+    }
+    &:after{
+        content:"^";
+        display:inline-block;
+        @include round(.36rem);
+        background:rgba(255,255,255,.5);
+        background-size:.48rem .48rem;
+
+    }
+}

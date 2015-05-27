@@ -1,0 +1,14 @@
+@charset "utf-8";
+/**
+ * 名称：函数
+ * 用途：管理定义变量的时候的map
+ * 用法：functionName(parameter)，
+ * 使用场景：用来返回一个值。sass本身内置函数查看http://sass-lang.com/documentation/Sass/Script/Functions.html
+ */
+@function base($key){
+  @if map-has-key($base, $key){
+    @return map-get($base, $key);
+  }
+  @warn "Unknown `#{$key}` in $base.";
+  @return null;
+}

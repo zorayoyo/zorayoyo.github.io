@@ -1,0 +1,112 @@
+@charset "utf-8";
+/**
+ * 名称：混合mixin
+ * 用法：@include mixinName(parameter)，
+ * 使用场景：样式通过拷贝的方式使用，尤其适用于相同代码块需要在不同的环境传递不同的值时使用
+ */
+
+/** 
+* 开启厂商前缀-prefixer
+* 用于在属性上加前缀
+* 默认这里将只输出webkit前缀、opera前缀和标准
+*/
+@mixin prefixer($property, $value, $vendor-prefix:webkit o) {
+  @each $prefix in $vendor-prefix {
+    @if $prefix == webkit{
+      -webkit-#{$property}: $value;
+    }
+    @else if $prefix == moz{
+      -moz-#{$property}: $value;
+    }
+    @else if $prefix == ms{
+      -ms-#{$property}: $value;
+    }
+    @else if $prefix == o{
+      -o-#{$property}: $value;
+    }
+  }
+  #{$property}: $value;
+}
+/* 开启厂商前缀-prefixer-value
+* 用于在值上加前缀
+* 默认这里将输出webkit前缀，moz前缀和标准
+*/
+@mixin prefixer-value($property, $value, $vendor-prefix: webkit moz) {
+  @each $prefix in $vendor-prefix {
+    @if $prefix == webkit {
+      #{$property}: -webkit-#{$value};
+    }
+    @else if $prefix == moz {
+      #{$property}: -moz-#{$value};
+    }
+    @else if $prefix == o {
+      #{$property}: -o-#{$value};
+    }
+    @else if $prefix == ms {
+      #{$property}: -ms-#{$value};
+    }
+  }
+  #{$property}: $value;
+}
+// 生成线性渐变背景
+@mixin linear-gradient($startColorstr, $endColorstr) {
+    background: -moz-linear-gradient(top, $startColorstr, $endColorstr); /* FF3.6 */
+    background: -webkit-gradient(linear, left bottom, left top, color-stop(0, $startColorstr), color-stop(1, $endColorstr)); /* Safari 4+, Chrome 2+ */
+    background: -webkit-linear-gradient(top, $startColorstr, $endColorstr); /* Safari 5.1+, Chrome 10+ */
+    background: -o-linear-gradient(top, $startColorstr, $endColorstr); /* Opera 11.1+ */
+    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='$startColorstr', endColorstr='$endColorstr'); /* IE6,IE7 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='$startColorstr', endColorstr='$endColorstr')"; /* IE8+ */
+    background: linear-gradient(to bottom, $startColorstr, $endColorstr);
+}
+// 旋转
+@mixin rotate($deg) {
+    -webkit-transform: rotate($deg);
+    -moz-transform: rotate($deg);
+    -o-transform: rotate($deg);
+    -ms-transform: rotate($deg);
+    transform: rotate($deg);
+}
+@mixin transform-origin($h-offset, $v-offset) {
+    -webkit-transform-origin: $h-offset $v-offset;
+    -moz-transform-origin: $h-offset $v-offset;
+    -o-transform-origin: $h-offset $v-offset;
+    -ms-transform-origin: $h-offset $v-offset;
+    transform-origin: $h-offset $v-offset;
+}
+//图文替换
+@mixin hidden-text($width, $height){
+    @include rect($width, $height);
+    line-height: $height;
+    position: relative;
+    z-index: -1;
+    text-align: center;
+}
+// 生成矩形方法
+@mixin rect($width, $height){
+    width: $width;
+    height: $height;
+}
+// 生成圆形方法
+@mixin round($size){
+    width: $size;
+    height: $size;
+    border-radius: $size / 2;
+}
+// 清除浮动
+@mixin clrfix {
+    &:after {
+        content: "";
+        display: block;
+        clear: both;
+        height: 0;
+        visibility: hidden;
+    }
+}
+//user select
+@mixin user-select($value:none) {
+    @include prefixer(user-select,$value);
+}
+// box sizing
+@mixin box-sizing($type: border-box) {
+  @include prefixer(box-sizing,$type,webkit moz o);
+}

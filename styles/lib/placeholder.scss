@@ -1,0 +1,18 @@
+@charset "utf-8";
+/**
+ * 名称：%placeholder 占位符
+ * 用法：@extend %placeholderName
+ * 使用场景：适用于不需要传任何变量参数的代码块，样式通过组合申明的方式使用
+ */
+// 清除浮动
+%clrfix {
+    @include clrfix;
+}
+// user select
+%user-select-none {
+    @include user-select(none);
+}
+//改变盒模型
+%box-sizing{
+  @include box-sizing(border-box);
+}

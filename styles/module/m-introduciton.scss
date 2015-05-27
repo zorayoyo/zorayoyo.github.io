@@ -1,0 +1,61 @@
+@charset "utf-8";
+.m-hometown {
+  background: url(#{base(images-url)}xiayuhe.jpg) center center no-repeat;
+  background-size: cover;
+}
+.bubble {
+  display: inline-block;
+  margin: auto;
+  position: relative;
+  top: .2rem;
+  width: 80%;
+  line-height: 4;
+  background-color: #fff;
+  border-radius: .05rem;
+  box-shadow: 0 0 10px #aaa;
+  &:after{
+    position: absolute;
+    top: 100%;
+    left: 38px;
+    content: "";
+    border: 15px solid;
+    border-color: #fff transparent transparent #fff;
+  }
+}
+.m-sex {
+  background: url(#{base(images-url)}sex.png) center center no-repeat;
+  background-size: cover;
+}
+.m-birth {
+  background: url(#{base(images-url)}birth.jpg) center center no-repeat;
+  background-size: cover;
+}
+.m-horoscope {
+  background: url(#{base(images-url)}zora-bg.png) center center no-repeat;
+  background-size: 180% 100%;
+}
+.drop-tag {
+  @extend %tag;
+  display: inline-block;
+  padding: 0.05rem .2rem;
+  font-size: .24rem;
+  color: #0dbfa4;
+  box-shadow: 0 0 10px;
+  opacity: 0;
+  float: none;
+  &.del {
+    text-decoration: line-through;
+  }
+  &.hw {
+    float: none;
+  }
+}
+.play {
+  /*山东*/.hw { -webkit-animation:drop-tag 3s .1s ease-in-out forwards; }
+  /*女生*/.girl { -webkit-animation:drop-tag 1.5s .2s ease-in-out forwards; }
+  /*女汉纸*/.hegirl { -webkit-animation:drop-tag 2.5s .5s ease-in-out forwards; }
+  /*90year*/.nine0year { -webkit-animation:drop-tag-del 2s .1s ease-in-out forwards; }
+  /*80year*/.eight0year { -webkit-animation:drop-tag 3s .2s ease-in-out forwards; }
+  /*狮子座*/.lion{ -webkit-animation:drop-tag-del 2.5s .1s ease-in-out forwards; }
+  /*巨蟹座*/.cancel { -webkit-animation:drop-tag 3s .2s ease-in-out forwards; }
+}

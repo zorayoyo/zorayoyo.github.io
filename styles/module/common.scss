@@ -1,0 +1,40 @@
+@charset "utf-8";
+%page {
+  background-color: base(bgcolor);
+  z-index: 1;
+  color: #fff;
+  line-height: 1.5;
+  text-align: center;
+  -webkit-transition: -webkit-transform .3s ease-out;
+  transition: -webkit-transform .3s ease-out;
+  -webkit-transform: translate3d(0px,100%,0px);
+  transform:  translate3d(0px,100%,0px);
+}
+%tag {
+  background-color: #f1eee5;
+  display: inline-block;
+  float: left;
+  line-height: 1.8;
+  border-radius: .05rem;
+  margin: .05rem; 
+}
+article,section { 
+  @include rect(100%, 100%);
+  top: 0;
+  left: 0;
+  position: absolute;
+  overflow: hidden;
+}
+section { @extend %page; }
+.container {
+  text-align: center;
+  z-index: 0;
+  &:before {
+    content: "本页面由萌萌哒-Zorayoyo制作提供";
+    display:block;
+    background-color: #2c3033;
+    @include rect(100%, 100%);
+    padding: .2rem 0;
+    color: #fff;
+  }
+}
