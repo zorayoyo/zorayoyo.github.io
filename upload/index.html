@@ -6,39 +6,41 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>上传</title>
 <style>
-.uploadbox{position:relative;z-index:1;background-color:#0069ca;color:#fff;text-align:center;padding:0 30px;line-height:2;}
-.uploadbox-title{}
-.upload-btn{position:absolute;z-index:1;left:0;top:0;opacity:0;}
-.preview{
-    width:80%;
+.upload-btn{position:relative;z-index:1;background-color:#0069ca;color:#fff;text-align:center;padding:0 30px;margin:20px 0;line-height:2;}
+.upload-input{position:absolute;z-index:1;left:0;top:0;opacity:0;}
+.scanbox-hd{
+    padding:10px 0;
+    text-align:center;
+}
+.preview-box{
+    width:300px;
     height:400px;
-    margin:10px auto;
+    margin:0 auto;
     position: relative;
     z-index:1;
     border:6px solid #0069ca;
     overflow:hidden;
+}
+.output-img,
+.output-info,
+.upload-tip{
     display:flex;
     align-items:center;
     justify-content:center;
-}
-.result{
-    display:none;
     position:absolute;
     left:0;
     top:0;
     z-index:50;
     width:100%;
     height:100%;
-    background-color:red;
     color:#fff;
-    align-items:center;
-    justify-content:center;
 }
-.preview img{
+.upload-tip{ background-color:green;}
+.output-info{ background-color:red;}
+.preview-box img{
     width:100%;
 }
 .scan{
-  display:none;
   position: absolute;
   top:0;
   left: 0;
@@ -92,23 +94,38 @@
 </style>
 </head>
 <body>
-<h1>扫一扫识物</h1>
-<div class="aibox" id="aibox">
-    <div class="aibox-hd">扫一扫获取你的xxx吧</div>
-    <div class="preview" id="previewBox">
-        <div class="scan" id="scanLine"></div>
-        <div class="result" id="resultBox"></div>
+<div id="app">
+    <div class="scanbox">
+        <div class="scanbox-hd">扫一扫获取你的xxx吧</div>
+        <div class="preview-box">
+            <div class="upload-tip">请扫描</div>
+            <div v-show="showPreview">
+                <div class="output-img" >
+                    <div class="scan"></div>
+                    <div class="output">
+                        <img :src="outputImgUrl" />
+                    </div>
+                </div>
+            </div>
+            <div v-show="showResultInfo">
+                <div class="output-info" >{{outputInfo}}</div>
+            </div>
+            <!-- <template v-if="isUploaded">
+
+                
+            </template>
+            <template v-else>
+                <div class="upload-tip">请扫描</div>
+            </template> -->
+        </div>
+        <div class="upload-btn">
+            扫一扫
+            <input class="upload-input" type="file" accept="image/*" @change="inputChange" :caputure="inputCapture">
+        </div>
+        
     </div>
-    <div class="uploadbox" id="uploadBox">
-        扫一扫
-        <input type="file" accept="image/*" class="upload-btn"  id="uploadBtn" onchange="fileChange(this.files)" />  
-    </div>
-    
 </div>
-<div class="dialog-mask"></div>
-<div class="dialog" id="dialogError">
-    <div class="dialog-bd"></div>
-</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
 <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
 <script>
   // VConsole will be exported to `window.VConsole` by default.
@@ -116,14 +133,88 @@
 </script>
 <script>
 const globalUA = window.navigator.userAgent.toLocaleLowerCase();
-const uploadBox = document.getElementById("uploadBox");
-const uploadBtn = document.getElementById("uploadBtn");
-const previewBox = document.getElementById('previewBox');
-const resultBox = document.getElementById('resultBox');
-const scanLine = document.getElementById('scanLine');
-const previewBoxRadio = previewBox.clientWidth / previewBox.clientHeight;
-const dialogResult = document.getElementById('dialogResult');
-const dialogMask = document.querySelector('.dialog-mask');
+new Vue({
+    el:'#app',
+    data: function(){
+        return {
+            inputCapture: '',
+            file: null,
+            outputImgUrl: '',
+            outputInfo: '',
+            showPreview: false,
+            showResultInfo: false,
+            isUploaded: false,
+        }
+    },
+    created: function(){
+        this.checkDevice();
+    },
+    methods: {
+        checkDevice: function(){
+            console.log('isMobile:',isMobile())
+            console.log('getSystem:',getSystem())
+            console.log('isWechat:',isWechat())
+            if(isMobile() && getSystem()==='android' && isWechat()==='qq'){
+                this.inputCapture = 'camera';
+            }
+        },
+        init: function(){
+            this.file =  null;
+            this.outputImgUrl = '';
+            this.outputInfo = '';
+            this.showPreview = false;
+            this.showResultInfo = false;
+            this.isUploaded = false;
+        },
+        inputChange: function (ev) {
+            this.init();
+            var file = ev.target.files[0];
+            this.file = file;
+            ev.target.value = '';
+
+            const imageType = /^image\//;
+            const isLt2M = file.size / 1024 / 1024 < 2;
+            if(!imageType.test(file.type)){
+                alert('请上传图片类型的文件');
+                return;
+            }
+            if(!isLt2M){
+                alert('上传图片大小不能超过 2MB!')
+                return;
+            }
+            
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            let p1 = new Promise((resolve,reject)=>{
+                reader.onload = (res) => {
+                    var url = res.target.result;
+                    this.outputImgUrl = url;
+                    this.showPreview = true;
+                    this.isUploaded = true;
+                    resolve(res);
+                };
+                reader.onerror =(err) =>{
+                    reject(err)
+                }
+            });
+            p1.then(res=>{
+                this.scanObject(res,this.showResult);
+            });
+        },
+        scanObject: function(img,callback){
+            // 调用后端接口
+            setTimeout(function(){
+                let result = '识别到的图片是xx'
+                callback && callback(result)
+            },1000);
+        },
+        showResult: function(r){
+            this.outputInfo = `扫描结果：${r}`;
+            this.showPreview = false;
+            this.showResultInfo = true;
+        }
+    }
+})
 
 // 判断PC还是移动端
 function isMobile(){
@@ -144,7 +235,6 @@ function getSystem(){
     }
 
 }
-
 // 判断是否是wechat还是QQ
 function isWechat() {
     if (globalUA.match(/MicroMessenger/i) == "micromessenger") {
@@ -158,95 +248,6 @@ function isWechat() {
     }
     return false;
 };
-
-function showDialog(id){
-    dialogMask.style.display = 'block';
-    document.getElementById(id).style.display = 'block';
-}
-
-function fileChange(f){
-
-    resultBox.innerHTML = ''
-    resultBox.style.display = 'none';
-    
-    const file = f[0]; 
-    const imageType = /^image\//;
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if(!imageType.test(file.type)){
-        alert('请上传图片类型的文件');
-        return;
-    }
-    if(!isLt2M){
-        alert('上传图片大小不能超过 2MB!')
-    }
-    let img = previewBox.getElementsByTagName('IMG')[0];
-    // 查看是否已有img标签
-    if(!img){
-        img = document.createElement('img');
-        previewBox.appendChild(img);
-    }
-    var reader = new FileReader();
-    reader.readAsDataURL(file);
-    let p1 = new Promise((resolve,reject)=>{
-        reader.onload = (res) => {
-            console.log('res',res);
-            var url = res.target.result;
-            img.src = url;
-            scanLine.style.display = 'block';
-            img.onload = function(){
-                // 图片适配容器
-                console.log('width,height',img.width,img.height);
-                resolve(res);
-            }
-
-        };
-        reader.onerror =(err) =>{
-            reject(err)
-        }
-    });
-    p1.then(res=>{
-        scanObject(res,showResultUI);
-    });
-}
-function showResultUI(msg){
-    resultBox.innerHTML = `扫描结果：${msg}`;
-    scanLine.style.display = 'none';
-    resultBox.style.display = 'flex';
-}
-function scanObject(img,callback){
-    // 调用后端接口
-    setTimeout(function(){
-        console.log('识别到的图片是：',img);
-        let result = '识别到的图片是xx'
-        callback && callback(result)
-    },300);
-}
-
-function fillUpContainer(img){
-    const w = img.clientWidth;
-    const h = img.clientHeight;
-    console.log('w,h',w,h);
-    const radio = w/h;
-    if(radio > previewBoxRadio){
-        console.log('高度小')
-        let scale = previewBox.clientHeight / h;
-        console.log('scale',scale);
-    }else{
-        console.log('宽度小')
-    }
-}
-
-
-console.log('isMobile:',isMobile())
-console.log('getSystem:',getSystem())
-console.log('isWechat:',isWechat())
-if(isMobile() && getSystem()==='android' && isWechat()==='qq'){
-    uploadBtn.setAttribute('capture','camera');
-}
-
-
-// todo:
-// 1、两次上传相同的图片不会触发 onchange事件
 </script>
 </body>
 </html>
